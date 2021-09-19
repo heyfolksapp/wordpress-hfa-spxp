@@ -15,7 +15,7 @@ along with HFA-SPXP. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
 */
 
 /**
- * Plugin Name:       SPXP Support
+ * Plugin Name:       HFA SPXP Support
  * Plugin URI:        https://heyfolks.app/wordpress-hfa-spxp
  * Description:       Exposes your blog via the Social Profile Exchange
  *                    Protocol so your friends can follow your updates
