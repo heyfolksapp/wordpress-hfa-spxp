@@ -258,7 +258,7 @@ class HeyFolksApp_SPXP_Settings {
         ?>
         <select id="hfa_spxp_preview_image_size" name="hfa-spxp[preview_image_size]">
             <?php foreach ( $image_sizes as $image_size_name ) { ?>
-                <option value="<?php echo $image_size_name; ?>" <?php selected( $image_size, $image_size_name ); ?>><?php echo ucfirst( $image_size_name ); ?></option>
+                <option value="<?php echo esc_html( $image_size_name ); ?>" <?php selected( $image_size, $image_size_name ); ?>><?php echo esc_html( ucfirst( $image_size_name ) ); ?></option>
             <?php } ?>
         </select>
         <p class="description">
@@ -274,7 +274,7 @@ class HeyFolksApp_SPXP_Settings {
         ?>
         <select id="hfa_spxp_full_image_size" name="hfa-spxp[full_image_size]">
             <?php foreach ( $image_sizes as $image_size_name ) { ?>
-                <option value="<?php echo $image_size_name; ?>" <?php selected( $image_size, $image_size_name ); ?>><?php echo ucfirst( $image_size_name ); ?></option>
+                <option value="<?php echo esc_html( $image_size_name ); ?>" <?php selected( $image_size, $image_size_name ); ?>><?php echo esc_html( ucfirst( $image_size_name ) ); ?></option>
             <?php } ?>
         </select>
         <p class="description">
