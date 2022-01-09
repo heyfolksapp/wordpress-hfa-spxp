@@ -243,7 +243,7 @@ class HeyFolksApp_SPXP_Settings {
         ?>
         <select id="hfa_spxp_post_type" name="hfa-spxp[post_type]">
             <?php foreach ( $spxp_post_types as $key => $label ) { ?>
-                <option value="<?php echo $key; ?>" <?php selected( $spxp_post_type, $key ); ?>><?php echo $label; ?></option>
+                <option value="<?php echo esc_html( $key ); ?>" <?php selected( $spxp_post_type, $key ); ?>><?php echo esc_html( $label ); ?></option>
             <?php } ?>
         </select>
         <p class="description">
