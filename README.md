@@ -1,7 +1,7 @@
 # Wordpress Plugin to expose your blog via the SPXP protocol
 
-Exposes your blog via the Social Profile Exchange Protocol so your friends can
-follow your updates using any SPXP client of their choice, like the HeyFolks app.
+Exposes your blog via the [Social Profile Exchange Protocol](https://github.com/spxp/spxp-specs) so your friends can
+follow your updates using any SPXP client of their choice, like the [HeyFolks app](https://heyfolks.app).
 
 ## Installation
 As usual: Copy the `/hfa-spxp` folder to `/wp-content/plugins` of your wordpress
