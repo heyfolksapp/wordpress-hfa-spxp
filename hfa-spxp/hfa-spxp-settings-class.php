@@ -199,10 +199,12 @@ class HeyFolksApp_SPXP_Settings {
 
     function get_image_html( $image_id ) {
         if( intval( $image_id ) > 0 ) {
-            return wp_get_attachment_image( $image_id, 'thumbnail', false, array( 'id' => 'hfaspxp-profile-image' ) );
-        } else {
-            return '<span id="hfaspxp-profile-image">' . __('[&nbsp;No&nbsp;Profile&nbsp;Photo&nbsp;]', 'hfa-spxp') . '</span>';
+            $image_html = wp_get_attachment_image( $image_id, 'thumbnail', false, array( 'id' => 'hfaspxp-profile-image' ) );
+            if( !empty( $image_html ) ) {
+                return $image_html;
+            }
         }
+        return '<span id="hfaspxp-profile-image">' . __('[&nbsp;No&nbsp;Profile&nbsp;Photo&nbsp;]', 'hfa-spxp') . '</span>';
     }
 
     function render_profile_image() {
