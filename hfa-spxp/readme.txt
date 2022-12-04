@@ -2,8 +2,8 @@
 Contributors: heyfolksapp
 Tags: spxp
 Requires at least: 4.7
-Tested up to: 5.9.2
-Stable tag: 1.0
+Tested up to: 6.1.1
+Stable tag: 1.1
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -45,6 +45,10 @@ your SPXP profile URI would be `https://example.com/myblog/spxp`.
 1. Settings of your SPXP profile
 
 == Changelog ==
+
+= 1.1 =
+* Fixed image posts
+* Fixed bug with deleted image assets
 
 = 1.0 =
 * Initial version
