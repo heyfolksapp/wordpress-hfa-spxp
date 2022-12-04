@@ -176,7 +176,10 @@ class HeyFolksApp_SPXP_Plugin {
                 $excerpt = trim( wp_strip_all_tags( $post->post_excerpt ) );
                 $spxp_post[ 'message' ] = ( $post_type == 'web-title' ) || ( strlen( $excerpt ) == 0 ) ? $title : $excerpt;
             } elseif ( substr( $post_type, 0, 7) == 'txtimg-' ) {
-                if ( $thumbnail_id && $preview_image_size ) {
+                $thumbnail_id = get_post_thumbnail_id( $post->ID );
+                $small_image_src = null;
+                $full_image_src = null;
+                if ( $thumbnail_id > 0 && $preview_image_size ) {
                     if ( in_the_loop() ) {
                         update_post_thumbnail_cache();
                     }
