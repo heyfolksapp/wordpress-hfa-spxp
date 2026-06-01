@@ -114,11 +114,11 @@ class HeyFolksApp_SPXP_Plugin {
             'website'       => home_url(),
             'postsEndpoint' => get_option( 'siteurl' ) . '/spxp/posts'
         );
-        $about = trim( $options[ 'about' ] );
+        $about = trim( $options[ 'about' ] ?? '' );
         if ( strlen( $about ) > 0 ) {
             $response[ 'about' ] = $about;
         }
-        $image_id = $options[ 'profile_image_id' ];
+        $image_id = $options[ 'profile_image_id' ] ?? 0;
         if( intval( $image_id ) > 0 ) {
             $image = wp_get_attachment_image_src( $image_id, 'medium_large', false );
             if ( $image ) {
@@ -136,8 +136,8 @@ class HeyFolksApp_SPXP_Plugin {
         $preview_image_size = $options[ 'preview_image_size' ];
         $full_image_size = $options[ 'full_image_size' ];
         $utc_timezone = new DateTimeZone( 'UTC' );
-        $before = DateTime::createFromFormat( 'Y-m-d\TH:i:s.u', $_GET[ 'before' ], $utc_timezone );
-        $after = DateTime::createFromFormat( 'Y-m-d\TH:i:s.u', $_GET[ 'after' ], $utc_timezone );
+        $before = DateTime::createFromFormat( 'Y-m-d\TH:i:s.u', $_GET[ 'before' ] ?? '', $utc_timezone );
+        $after = DateTime::createFromFormat( 'Y-m-d\TH:i:s.u', $_GET[ 'after' ] ?? '', $utc_timezone );
         $max = 50;
         if ( isset( $_GET[ 'max' ] ) && is_numeric( $_GET[ 'max' ] ) ) {
             $max = intval( $_GET[ 'max' ] );

@@ -209,7 +209,7 @@ class HeyFolksApp_SPXP_Settings {
 
     function render_profile_image() {
         // Kudos https://wordpress.stackexchange.com/a/236296
-        $image_id = $this->options[ 'profile_image_id' ];
+        $image_id = $this->options[ 'profile_image_id' ] ?? 0;
         echo $this->get_image_html( $image_id );
         ?>
         <input type="hidden" name="hfa-spxp[profile_image_id]" id="profile-image-id" value="<?php echo esc_attr( $image_id ); ?>" class="regular-text" />
@@ -226,7 +226,7 @@ class HeyFolksApp_SPXP_Settings {
 
     function render_profile_about() {
         ?>
-        <textarea id="hfa_spxp_about" name="hfa-spxp[about]" rows="10" cols="80"><?php echo esc_textarea( $this->options[ 'about' ] ); ?></textarea>
+        <textarea id="hfa_spxp_about" name="hfa-spxp[about]" rows="10" cols="80"><?php echo esc_textarea( $this->options[ 'about' ] ?? '' ); ?></textarea>
         <p class="description">
             <?php _e('Say something about yourself (if you like).', 'hfa-spxp'); ?>
         </p>

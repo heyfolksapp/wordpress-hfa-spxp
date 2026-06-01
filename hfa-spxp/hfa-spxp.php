@@ -23,7 +23,7 @@ along with HFA-SPXP. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
  *                    HeyFolks app.
  * Version:           1.0
  * Requires at least: 4.7
- * Requires PHP:      7.2
+ * Requires PHP:      8.2
  * Author:            HeyFolks.app
  * Author URI:        https://heyfolks.app/
  * License:           GPL v2 or later
