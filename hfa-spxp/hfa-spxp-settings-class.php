@@ -22,7 +22,7 @@ class HeyFolksApp_SPXP_Settings {
 
     const OPTIONS_PAGE_SLUG = 'hfa-spxp';
 
-    public $options;
+    private $options;
 
     public function add_hooks() {
         add_filter( 'plugin_action_links', [ $this, 'plugin_action_links' ], 10, 2 );
@@ -140,16 +140,17 @@ class HeyFolksApp_SPXP_Settings {
         if( $page == 'settings_page_hfa-spxp' ) {
             wp_enqueue_media();
             wp_enqueue_script( 'hfa-spxp_script', plugins_url( '/hfa-spxp-settings.js' , __FILE__ ), array('jquery'), '0.1' );
+            wp_localize_script( 'hfa-spxp_script', 'hfaspxp', [
+                'nonce' => wp_create_nonce( 'hfaspxp_get_image' ),
+            ] );
         }
     }
 
     public function ajax_get_image() {
-        if(isset($_GET['id']) ){
+        check_ajax_referer( 'hfaspxp_get_image' );
+        if( isset( $_GET['id'] ) ) {
             $image = $this->get_image_html( filter_input( INPUT_GET, 'id', FILTER_VALIDATE_INT ) );
-            $data = array(
-                'image'    => $image,
-            );
-            wp_send_json_success( $data );
+            wp_send_json_success( [ 'image' => $image ] );
         } else {
             wp_send_json_error();
         }
@@ -170,7 +171,7 @@ class HeyFolksApp_SPXP_Settings {
         <?php
     }
 
-    function render_main_profileUri() {
+    public function render_main_profileUri() {
         echo '<b>' . esc_html( get_option( 'siteurl' ) . '/spxp' ) . '</b>';
         ?>
         <p class="description">
@@ -179,8 +180,8 @@ class HeyFolksApp_SPXP_Settings {
         <?php
     }
 
-    function render_profile_name() {
-        echo esc_html( get_option( 'blogname' ) )
+    public function render_profile_name() {
+        echo esc_html( get_option( 'blogname' ) );
         ?>
         <p class="description">
             <?php printf( __( 'Name of this profile. Identical to the <i>Site Title</i> as set in the <a href="%1$s">General Settings</a>.', 'hfa-spxp' ), admin_url( 'options-general.php' ) ); ?>
@@ -188,8 +189,8 @@ class HeyFolksApp_SPXP_Settings {
         <?php
     }
 
-    function render_profile_shortInfo() {
-        echo esc_html( get_option( 'blogdescription' ) )
+    public function render_profile_shortInfo() {
+        echo esc_html( get_option( 'blogdescription' ) );
         ?>
         <p class="description">
             <?php printf( __( 'Short info about this profile. Identical to the <i>Tagline</i> as set in the <a href="%1$s">General Settings</a>.', 'hfa-spxp' ), admin_url( 'options-general.php' ) ); ?>
@@ -197,7 +198,7 @@ class HeyFolksApp_SPXP_Settings {
         <?php
     }
 
-    function get_image_html( $image_id ) {
+    private function get_image_html( $image_id ) {
         if( intval( $image_id ) > 0 ) {
             $image_html = wp_get_attachment_image( $image_id, 'thumbnail', false, array( 'id' => 'hfaspxp-profile-image' ) );
             if( !empty( $image_html ) ) {
@@ -207,7 +208,7 @@ class HeyFolksApp_SPXP_Settings {
         return '<span id="hfaspxp-profile-image">' . __('[&nbsp;No&nbsp;Profile&nbsp;Photo&nbsp;]', 'hfa-spxp') . '</span>';
     }
 
-    function render_profile_image() {
+    public function render_profile_image() {
         // Kudos https://wordpress.stackexchange.com/a/236296
         $image_id = $this->options[ 'profile_image_id' ] ?? 0;
         echo $this->get_image_html( $image_id );
@@ -224,7 +225,7 @@ class HeyFolksApp_SPXP_Settings {
         <?php
     }
 
-    function render_profile_about() {
+    public function render_profile_about() {
         ?>
         <textarea id="hfa_spxp_about" name="hfa-spxp[about]" rows="10" cols="80"><?php echo esc_textarea( $this->options[ 'about' ] ?? '' ); ?></textarea>
         <p class="description">
@@ -233,7 +234,7 @@ class HeyFolksApp_SPXP_Settings {
         <?php
     }
 
-    function render_post_type() {
+    public function render_post_type() {
         $spxp_post_types = array(
             'web-title' => __( 'Link to post using title only', 'hfa-spxp' ),
             'web-excerpt' => __( 'Link to post using excerpt (title if excerpt not available)', 'hfa-spxp' ),
@@ -254,7 +255,7 @@ class HeyFolksApp_SPXP_Settings {
         <?php
     }
 
-    function render_post_preview_image_size() {
+    public function render_post_preview_image_size() {
         $image_sizes = get_intermediate_image_sizes();
         $image_size = $this->options[ 'preview_image_size' ];
         ?>
@@ -269,7 +270,7 @@ class HeyFolksApp_SPXP_Settings {
         <?php
     }
 
-    function render_post_full_image_size() {
+    public function render_post_full_image_size() {
         $image_sizes = get_intermediate_image_sizes();
         array_unshift( $image_sizes, 'none' );
         $image_size = $this->options[ 'full_image_size' ];
