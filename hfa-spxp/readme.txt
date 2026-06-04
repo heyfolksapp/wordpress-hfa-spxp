@@ -2,9 +2,9 @@
 Contributors: heyfolksapp
 Tags: spxp
 Requires at least: 4.7
-Tested up to: 6.1.1
-Stable tag: 1.1
-Requires PHP: 7.2
+Tested up to: 7.0
+Stable tag: 1.2
+Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,14 @@ your SPXP profile URI would be `https://example.com/myblog/spxp`.
 1. Settings of your SPXP profile
 
 == Changelog ==
+
+= 1.2 =
+* Updated minimum PHP requirement to 8.2
+* Updated tested WordPress version to 7.0
+* Fixed PHP 8.x compatibility warnings (undefined array key access)
+* Added nonce verification to settings AJAX handler
+* Fixed settings values not being sanitized on save
+* Code quality improvements: method visibility, unicode JSON output
 
 = 1.1 =
 * Fixed image posts

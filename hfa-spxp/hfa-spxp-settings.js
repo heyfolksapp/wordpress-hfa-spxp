@@ -67,7 +67,8 @@ jQuery(document).ready( function($) {
 function Refresh_Image(id) {
     var data = {
         action: 'hfaspxp_get_image',
-        id: id
+        id: id,
+        _ajax_nonce: hfaspxp.nonce
     };
     jQuery.get(ajaxurl, data, function(response) {
         if(response.success === true) {

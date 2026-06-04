@@ -21,9 +21,9 @@ along with HFA-SPXP. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
  *                    Protocol so your friends can follow your updates
  *                    using any SPXP client of their choice, like the
  *                    HeyFolks app.
- * Version:           1.0
+ * Version:           1.2
  * Requires at least: 4.7
- * Requires PHP:      7.2
+ * Requires PHP:      8.2
  * Author:            HeyFolks.app
  * Author URI:        https://heyfolks.app/
  * License:           GPL v2 or later
