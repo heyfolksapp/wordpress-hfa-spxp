@@ -34,7 +34,7 @@ class HeyFolksApp_SPXP_Settings {
 
     public function plugin_action_links( $actions, $plugin_file ) {
         if ( $plugin_file == 'hfa-spxp/hfa-spxp.php' ) {
-            $settings = '<a href="' . admin_url( 'options-general.php?page=' . self::OPTIONS_PAGE_SLUG ) . '">' . esc_html__( 'Settings', 'hfa-spxp' ) . '</a>';
+            $settings = '<a href="' . esc_url( admin_url( 'options-general.php?page=' . self::OPTIONS_PAGE_SLUG ) ) . '">' . esc_html__( 'Settings', 'hfa-spxp' ) . '</a>';
             array_unshift( $actions, $settings );
         }
         return $actions;
@@ -159,7 +159,7 @@ class HeyFolksApp_SPXP_Settings {
     public function render_options_page() {
         ?>
         <div class="wrap">
-            <h1><?php _e( 'Social Profile Exchange Protocol Settings', 'hfa-spxp' ); ?></h1>
+            <h1><?php esc_html_e( 'Social Profile Exchange Protocol Settings', 'hfa-spxp' ); ?></h1>
             <form action="options.php" method="post">
                 <?php
                 settings_fields( 'hfa-spxp-settings' );
@@ -175,7 +175,15 @@ class HeyFolksApp_SPXP_Settings {
         echo '<b>' . esc_html( get_option( 'siteurl' ) . '/spxp' ) . '</b>';
         ?>
         <p class="description">
-            <?php printf( __( 'Share this <i>Profile Uri</i> with your friends so they can use a SPXP client like the <a href="https://heyfolks.app" target="_blank">HeyFolks App</a> to follow your updates.<br/>(test: view <a href="%1$s" target="_blank">raw protocol data</a>)', 'hfa-spxp' ), get_option( 'siteurl' ) . '/spxp' ); ?>
+            <?php
+            printf(
+                wp_kses(
+                    __( 'Share this <i>Profile Uri</i> with your friends so they can use a SPXP client like the <a href="https://heyfolks.app" target="_blank">HeyFolks App</a> to follow your updates.<br/>(test: view <a href="%1$s" target="_blank">raw protocol data</a>)', 'hfa-spxp' ),
+                    [ 'i' => [], 'a' => [ 'href' => [], 'target' => [] ], 'br' => [] ]
+                ),
+                esc_url( get_option( 'siteurl' ) . '/spxp' )
+            );
+            ?>
         </p>
         <?php
     }
@@ -184,7 +192,15 @@ class HeyFolksApp_SPXP_Settings {
         echo esc_html( get_option( 'blogname' ) );
         ?>
         <p class="description">
-            <?php printf( __( 'Name of this profile. Identical to the <i>Site Title</i> as set in the <a href="%1$s">General Settings</a>.', 'hfa-spxp' ), admin_url( 'options-general.php' ) ); ?>
+            <?php
+            printf(
+                wp_kses(
+                    __( 'Name of this profile. Identical to the <i>Site Title</i> as set in the <a href="%1$s">General Settings</a>.', 'hfa-spxp' ),
+                    [ 'i' => [], 'a' => [ 'href' => [] ] ]
+                ),
+                esc_url( admin_url( 'options-general.php' ) )
+            );
+            ?>
         </p>
         <?php
     }
@@ -193,7 +209,15 @@ class HeyFolksApp_SPXP_Settings {
         echo esc_html( get_option( 'blogdescription' ) );
         ?>
         <p class="description">
-            <?php printf( __( 'Short info about this profile. Identical to the <i>Tagline</i> as set in the <a href="%1$s">General Settings</a>.', 'hfa-spxp' ), admin_url( 'options-general.php' ) ); ?>
+            <?php
+            printf(
+                wp_kses(
+                    __( 'Short info about this profile. Identical to the <i>Tagline</i> as set in the <a href="%1$s">General Settings</a>.', 'hfa-spxp' ),
+                    [ 'i' => [], 'a' => [ 'href' => [] ] ]
+                ),
+                esc_url( admin_url( 'options-general.php' ) )
+            );
+            ?>
         </p>
         <?php
     }
@@ -211,7 +235,7 @@ class HeyFolksApp_SPXP_Settings {
     public function render_profile_image() {
         // Kudos https://wordpress.stackexchange.com/a/236296
         $image_id = $this->options[ 'profile_image_id' ] ?? 0;
-        echo $this->get_image_html( $image_id );
+        echo wp_kses_post( $this->get_image_html( $image_id ) );
         ?>
         <input type="hidden" name="hfa-spxp[profile_image_id]" id="profile-image-id" value="<?php echo esc_attr( $image_id ); ?>" class="regular-text" />
         &nbsp;&nbsp;&nbsp;
@@ -229,7 +253,7 @@ class HeyFolksApp_SPXP_Settings {
         ?>
         <textarea id="hfa_spxp_about" name="hfa-spxp[about]" rows="10" cols="80"><?php echo esc_textarea( $this->options[ 'about' ] ?? '' ); ?></textarea>
         <p class="description">
-            <?php _e('Say something about yourself (if you like).', 'hfa-spxp'); ?>
+            <?php esc_html_e( 'Say something about yourself (if you like).', 'hfa-spxp' ); ?>
         </p>
         <?php
     }
@@ -250,7 +274,7 @@ class HeyFolksApp_SPXP_Settings {
             <?php } ?>
         </select>
         <p class="description">
-            <?php _e('SPXP supports different types of posts (text, image, web). This setting controls which type is chosen and what information is included based on the post in wordpress.', 'hfa-spxp'); ?>
+            <?php esc_html_e( 'SPXP supports different types of posts (text, image, web). This setting controls which type is chosen and what information is included based on the post in wordpress.', 'hfa-spxp' ); ?>
         </p>
         <?php
     }
@@ -265,7 +289,16 @@ class HeyFolksApp_SPXP_Settings {
             <?php } ?>
         </select>
         <p class="description">
-            <?php printf( __( 'Size of the preview image for picture posts. Customize image sizes in <a href="%1$s">media options</a>. Afterwards, don\'t forget to <a href="%2$s" target="_blank">regenerate thumbnails</a>.', 'hfa-spxp' ), admin_url( 'options-media.php' ), 'http://wordpress.org/plugins/regenerate-thumbnails/' ); ?>
+            <?php
+            printf(
+                wp_kses(
+                    __( 'Size of the preview image for picture posts. Customize image sizes in <a href="%1$s">media options</a>. Afterwards, don\'t forget to <a href="%2$s" target="_blank">regenerate thumbnails</a>.', 'hfa-spxp' ),
+                    [ 'a' => [ 'href' => [], 'target' => [] ] ]
+                ),
+                esc_url( admin_url( 'options-media.php' ) ),
+                esc_url( 'https://wordpress.org/plugins/regenerate-thumbnails/' )
+            );
+            ?>
         </p>
         <?php
     }
@@ -281,7 +314,16 @@ class HeyFolksApp_SPXP_Settings {
             <?php } ?>
         </select>
         <p class="description">
-            <?php printf( __( 'Size of the full image for picture posts. Customize image sizes in <a href="%1$s">media options</a>. Afterwards, don\'t forget to <a href="%2$s" target="_blank">regenerate thumbnails</a>.', 'hfa-spxp' ), admin_url( 'options-media.php' ), 'http://wordpress.org/plugins/regenerate-thumbnails/' ); ?>
+            <?php
+            printf(
+                wp_kses(
+                    __( 'Size of the full image for picture posts. Customize image sizes in <a href="%1$s">media options</a>. Afterwards, don\'t forget to <a href="%2$s" target="_blank">regenerate thumbnails</a>.', 'hfa-spxp' ),
+                    [ 'a' => [ 'href' => [], 'target' => [] ] ]
+                ),
+                esc_url( admin_url( 'options-media.php' ) ),
+                esc_url( 'https://wordpress.org/plugins/regenerate-thumbnails/' )
+            );
+            ?>
         </p>
         <?php
     }
