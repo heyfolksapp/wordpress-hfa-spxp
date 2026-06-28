@@ -226,7 +226,7 @@ class HeyFolksApp_SPXP_Plugin {
                         break;
                 }
             }
-            array_push( $response_data, $spxp_post );
+            $response_data[] = $spxp_post;
             if ( count( $response_data ) >= $max ) {
                 break;
             }

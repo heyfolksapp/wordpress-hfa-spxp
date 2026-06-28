@@ -34,13 +34,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-include dirname( __FILE__ ) . '/hfa-spxp-class.php';
+require_once __DIR__ . '/hfa-spxp-class.php';
 $hfaspxp_plugin = new HeyFolksApp_SPXP_Plugin();
 add_action( 'plugins_loaded', [ $hfaspxp_plugin, 'add_hooks' ] );
 register_activation_hook(  __FILE__, [ $hfaspxp_plugin, 'activation' ] );
 register_deactivation_hook(  __FILE__, [ $hfaspxp_plugin, 'deactivation' ] );
 
 if ( is_admin() ) {
-    include dirname( __FILE__ ) . '/hfa-spxp-settings-class.php';
+    require_once __DIR__ . '/hfa-spxp-settings-class.php';
     add_action( 'plugins_loaded', [ new HeyFolksApp_SPXP_Settings(), 'add_hooks' ] );
 }
