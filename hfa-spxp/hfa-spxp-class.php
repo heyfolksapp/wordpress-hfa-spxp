@@ -88,10 +88,10 @@ class HeyFolksApp_SPXP_Plugin {
     }
 
     public function redirect_canonical( $redirect_url ) {
-        if ( $redirect_url === get_option( 'siteurl' ) . '/spxp/' ) {
+        if ( $redirect_url === home_url( '/spxp/' ) ) {
             return false;
         }
-        if ( $redirect_url === get_option( 'siteurl' ) . '/spxp/posts/' ) {
+        if ( $redirect_url === home_url( '/spxp/posts/' ) ) {
             return false;
         }
         return $redirect_url;
@@ -120,7 +120,7 @@ class HeyFolksApp_SPXP_Plugin {
             'name'          => get_option( 'blogname' ),
             'shortInfo'     => get_option( 'blogdescription' ),
             'website'       => home_url(),
-            'postsEndpoint' => get_option( 'siteurl' ) . '/spxp/posts'
+            'postsEndpoint' => home_url( '/spxp/posts' )
         );
         $about = trim( $options[ 'about' ] ?? '' );
         if ( strlen( $about ) > 0 ) {

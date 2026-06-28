@@ -1,6 +1,6 @@
 === Support for the Social Profile Exchange Protocol (SPXP) ===
 Contributors: heyfolksapp
-Tags: spxp
+Tags: spxp, social, social network, feed, decentralized
 Requires at least: 4.7
 Tested up to: 7.0
 Stable tag: 1.2
