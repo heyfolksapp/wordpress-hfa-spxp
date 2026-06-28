@@ -172,7 +172,7 @@ class HeyFolksApp_SPXP_Settings {
     }
 
     public function render_main_profileUri() {
-        echo '<b>' . esc_html( get_option( 'siteurl' ) . '/spxp' ) . '</b>';
+        echo '<b>' . esc_html( home_url( '/spxp' ) ) . '</b>';
         ?>
         <p class="description">
             <?php
@@ -181,7 +181,7 @@ class HeyFolksApp_SPXP_Settings {
                     __( 'Share this <i>Profile Uri</i> with your friends so they can use a SPXP client like the <a href="https://heyfolks.app" target="_blank">HeyFolks App</a> to follow your updates.<br/>(test: view <a href="%1$s" target="_blank">raw protocol data</a>)', 'hfa-spxp' ),
                     [ 'i' => [], 'a' => [ 'href' => [], 'target' => [] ], 'br' => [] ]
                 ),
-                esc_url( get_option( 'siteurl' ) . '/spxp' )
+                esc_url( home_url( '/spxp' ) )
             );
             ?>
         </p>
