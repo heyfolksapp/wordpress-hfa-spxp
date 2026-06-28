@@ -242,7 +242,7 @@ class HeyFolksApp_SPXP_Settings {
             'txtimg-excerpt' => __( 'Title and excerpt or text, image if available', 'hfa-spxp' ),
             'txtimg-excerpt-only' => __( 'Title and excerpt only, image if available', 'hfa-spxp' )
         );
-        $spxp_post_type = $this->options['post_type'];
+        $spxp_post_type = $this->options['post_type'] ?? 'txtimg-full';
         ?>
         <select id="hfa_spxp_post_type" name="hfa-spxp[post_type]">
             <?php foreach ( $spxp_post_types as $key => $label ) { ?>
@@ -257,7 +257,7 @@ class HeyFolksApp_SPXP_Settings {
 
     public function render_post_preview_image_size() {
         $image_sizes = get_intermediate_image_sizes();
-        $image_size = $this->options[ 'preview_image_size' ];
+        $image_size = $this->options[ 'preview_image_size' ] ?? 'medium_large';
         ?>
         <select id="hfa_spxp_preview_image_size" name="hfa-spxp[preview_image_size]">
             <?php foreach ( $image_sizes as $image_size_name ) { ?>
@@ -273,7 +273,7 @@ class HeyFolksApp_SPXP_Settings {
     public function render_post_full_image_size() {
         $image_sizes = get_intermediate_image_sizes();
         array_unshift( $image_sizes, 'none' );
-        $image_size = $this->options[ 'full_image_size' ];
+        $image_size = $this->options[ 'full_image_size' ] ?? 'none';
         ?>
         <select id="hfa_spxp_full_image_size" name="hfa-spxp[full_image_size]">
             <?php foreach ( $image_sizes as $image_size_name ) { ?>
