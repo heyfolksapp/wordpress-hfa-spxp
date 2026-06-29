@@ -43,17 +43,18 @@ ln -sf $(pwd)/hfa-spxp ~/Sites/wp-spxp-test/wp-content/plugins/hfa-spxp
 1. Update `Version:` in `hfa-spxp/hfa-spxp.php` and `Stable tag:` in `hfa-spxp/readme.txt` to the new version
 2. Add a changelog entry in `readme.txt`
 3. Commit, merge to `main`
-4. Tag the merge commit: `git tag <version> && git push origin <version>`
+4. Tag the merge commit: `git tag v<version> && git push origin v<version>`
 
-Current release: **1.2** (tagged `1.2` on `main`)
+Note: tags use a `v` prefix (e.g. `v1.3`); the version string inside files (`hfa-spxp.php`, `readme.txt`) has no prefix (e.g. `1.3`).
+
+Current release: **1.2** (tagged `v1.2` on `main`)
 
 ## Open issues
 
-- **#2** — Add SPXP `video` post type support (implementation plan in the issue)
 - **#3** — Publish plugin to the WordPress.org plugin directory
 
 ## SPXP spec compliance
 
-The plugin implements: `text`, `photo`, `web` post types, profile root endpoint, posts endpoint with `before`/`after`/`max` pagination.
+The plugin implements: `text`, `photo`, `video`, `web` post types, profile root endpoint, posts endpoint with `before`/`after`/`max` pagination.
 
-Not yet implemented: `video` post type (issue #2), cryptographic signing/encryption, `friendsEndpoint`, `keysEndpoint`.
+Not yet implemented: cryptographic signing/encryption, `friendsEndpoint`, `keysEndpoint`.
