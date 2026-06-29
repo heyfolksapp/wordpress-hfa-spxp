@@ -139,7 +139,7 @@ class HeyFolksApp_SPXP_Settings {
     public function enqueue_scripts( $page ) {
         if( $page == 'settings_page_hfa-spxp' ) {
             wp_enqueue_media();
-            wp_enqueue_script( 'hfa-spxp_script', plugins_url( '/hfa-spxp-settings.js' , __FILE__ ), array('jquery'), '0.1' );
+            wp_enqueue_script( 'hfa-spxp_script', plugins_url( '/hfa-spxp-settings.js', __FILE__ ), [ 'jquery' ], HFA_SPXP_VERSION );
             wp_localize_script( 'hfa-spxp_script', 'hfaspxp', [
                 'nonce' => wp_create_nonce( 'hfaspxp_get_image' ),
             ] );
