@@ -21,7 +21,7 @@ along with HFA-SPXP. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
  *                    Protocol so your friends can follow your updates
  *                    using any SPXP client of their choice, like the
  *                    HeyFolks app.
- * Version:           1.2
+ * Version:           1.3
  * Requires at least: 4.7
  * Requires PHP:      8.2
  * Author:            HeyFolks.app
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'HFA_SPXP_VERSION', '1.2' );
+define( 'HFA_SPXP_VERSION', '1.3' );
 
 require_once __DIR__ . '/hfa-spxp-class.php';
 $hfaspxp_plugin = new HeyFolksApp_SPXP_Plugin();
