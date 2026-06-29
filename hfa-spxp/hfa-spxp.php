@@ -34,6 +34,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+define( 'HFA_SPXP_VERSION', '1.2' );
+
 require_once __DIR__ . '/hfa-spxp-class.php';
 $hfaspxp_plugin = new HeyFolksApp_SPXP_Plugin();
 add_action( 'plugins_loaded', [ $hfaspxp_plugin, 'add_hooks' ] );
