@@ -3,7 +3,7 @@ Contributors: heyfolksapp
 Tags: spxp, social, social network, feed, decentralized
 Requires at least: 4.7
 Tested up to: 7.0
-Stable tag: 1.2
+Stable tag: 1.3
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -45,6 +45,10 @@ your SPXP profile URI would be `https://example.com/myblog/spxp`.
 1. Settings of your SPXP profile
 
 == Changelog ==
+
+= 1.3 =
+* Added SPXP `video` post type: posts with a video attachment and a featured image now appear as `video` in the feed with `media` and `preview` fields
+* Refactored post-building logic into focused helper methods for easier maintenance
 
 = 1.2 =
 * Updated minimum PHP requirement to 8.2

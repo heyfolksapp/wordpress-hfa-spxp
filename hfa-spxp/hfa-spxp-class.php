@@ -137,106 +137,118 @@ class HeyFolksApp_SPXP_Plugin {
         echo json_encode( $response, JSON_UNESCAPED_UNICODE );
     }
 
-    private function handle_spxp_posts()
-    {
-        $options = get_option( self::OPTION_NAME );
-        $post_type = $options[ 'post_type' ];
-        $preview_image_size = $options[ 'preview_image_size' ];
-        $full_image_size = $options[ 'full_image_size' ];
+    private function handle_spxp_posts() {
+        $options            = get_option( self::OPTION_NAME );
+        $post_type          = $options['post_type'];
+        $preview_image_size = $options['preview_image_size'];
+        $full_image_size    = $options['full_image_size'];
+
         $utc_timezone = new DateTimeZone( 'UTC' );
-        $before = DateTime::createFromFormat( 'Y-m-d\TH:i:s.u', $_GET[ 'before' ] ?? '', $utc_timezone );
-        $after = DateTime::createFromFormat( 'Y-m-d\TH:i:s.u', $_GET[ 'after' ] ?? '', $utc_timezone );
+        $before = DateTime::createFromFormat( 'Y-m-d\TH:i:s.u', $_GET['before'] ?? '', $utc_timezone );
+        $after  = DateTime::createFromFormat( 'Y-m-d\TH:i:s.u', $_GET['after']  ?? '', $utc_timezone );
+
         $max = 50;
-        if ( isset( $_GET[ 'max' ] ) && is_numeric( $_GET[ 'max' ] ) ) {
-            $max = intval( $_GET[ 'max' ] );
-            if ( $max < 1 ) {
-                $max = 1;
-            } elseif ( $max > 100 ) {
-                $max = 100;
-            }
+        if ( isset( $_GET['max'] ) && is_numeric( $_GET['max'] ) ) {
+            $max = intval( $_GET['max'] );
+            if ( $max < 1 )       { $max = 1;   }
+            elseif ( $max > 100 ) { $max = 100; }
         }
-        $args = array(
-            'numberposts' => $max + 1
-        );
+
+        $args = [ 'numberposts' => $max + 1 ];
         if ( $before || $after ) {
-            $args[ 'date_query' ] = array();
-            $args[ 'date_query' ][ 'column' ] = 'post_date_gmt';
-            if ( $before ) {
-                $args[ 'date_query' ][ 'before' ] = $before->setTimezone( $utc_timezone )->format( 'Y-m-d H:i:s' );
-            }
-            if ( $after ) {
-                $args[ 'date_query' ][ 'after' ] = $after->setTimezone( $utc_timezone )->format( 'Y-m-d H:i:s' );
-            }
+            $args['date_query'] = [ 'column' => 'post_date_gmt' ];
+            if ( $before ) { $args['date_query']['before'] = $before->setTimezone( $utc_timezone )->format( 'Y-m-d H:i:s' ); }
+            if ( $after )  { $args['date_query']['after']  = $after->setTimezone(  $utc_timezone )->format( 'Y-m-d H:i:s' ); }
         }
-        $latest_posts = get_posts( $args );
-        $response_data = array();
+
+        $latest_posts  = get_posts( $args );
+        $response_data = [];
         foreach ( $latest_posts as $post ) {
             if ( ! empty( $post->post_password ) ) {
                 continue;
             }
-            $spxp_post = array(
-                'seqts'   => substr( $post->post_date_gmt, 0, 10) . 'T' . substr( $post->post_date_gmt, 11, 8).'.000'
-            );
-            if ( str_starts_with( $post_type, 'web-' ) ) {
-                $spxp_post[ 'type' ] = 'web';
-                $spxp_post[ 'link' ] = get_permalink( $post );
-                $title = trim( wp_strip_all_tags( $post->post_title ) );
-                $excerpt = trim( wp_strip_all_tags( $post->post_excerpt ) );
-                $spxp_post[ 'message' ] = ( $post_type == 'web-title' ) || ( strlen( $excerpt ) == 0 ) ? $title : $excerpt;
-            } elseif ( str_starts_with( $post_type, 'txtimg-' ) ) {
-                $thumbnail_id = get_post_thumbnail_id( $post->ID );
-                $small_image_src = null;
-                $full_image_src = null;
-                if ( $thumbnail_id > 0 && $preview_image_size ) {
-                    $image = wp_get_attachment_image_src( $thumbnail_id, $preview_image_size, false );
-                    if ( $image ) {
-                        $small_image_src = $image[0];
-                    }
-                    if( $full_image_size && $full_image_size !== 'none' ) {
-                        $image = wp_get_attachment_image_src( $thumbnail_id, $full_image_size, false );
-                        if ( $image ) {
-                            $full_image_src = $image[0];
-                        }
-                    }
-                }
-                if ( $small_image_src ) {
-                    $spxp_post[ 'type' ] = 'photo';
-                    $spxp_post[ 'small' ] = $small_image_src;
-                    if ( $full_image_src ) {
-                        $spxp_post[ 'full' ] = $full_image_src;
-                    }
-                } else {
-                    $spxp_post[ 'type' ] = 'text';
-                }
-                $title = trim( wp_strip_all_tags( $post->post_title ) );
-                $excerpt = trim( wp_strip_all_tags( $post->post_excerpt ) );
-                $content = trim( wp_strip_all_tags( $post->post_content ) );
-                switch ( $post_type ) {
-                    case 'txtimg-full':
-                        // Title and full text, image if available
-                        $spxp_post[ 'message' ] = $title . ' ' . $content;
-                        break;
-                    case 'txtimg-excerpt':
-                        // Title and excerpt or text, image if available
-                        $spxp_post[ 'message' ] = $title . ' ' . ( strlen( $excerpt ) > 0 ? $excerpt : $content );
-                        break;
-                    case 'txtimg-excerpt-only':
-                        // Title and excerpt only, image if available
-                        $spxp_post[ 'message' ] = $title . ' ' . $excerpt;
-                        break;
-                }
-            }
-            $response_data[] = $spxp_post;
+            $response_data[] = $this->build_post_item( $post, $post_type, $preview_image_size, $full_image_size );
             if ( count( $response_data ) >= $max ) {
                 break;
             }
         }
-        $response = array(
-            'data' => $response_data,
-            'more' => count( $latest_posts ) > $max
-        );
+
         header( 'Content-Type: application/json' );
-        echo json_encode( $response, JSON_UNESCAPED_UNICODE );
+        echo json_encode(
+            [ 'data' => $response_data, 'more' => count( $latest_posts ) > $max ],
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+
+    private function build_post_item( $post, $post_type, $preview_image_size, $full_image_size ) {
+        $spxp_post = [
+            'seqts' => substr( $post->post_date_gmt, 0, 10 ) . 'T' . substr( $post->post_date_gmt, 11, 8 ) . '.000',
+        ];
+
+        if ( str_starts_with( $post_type, 'web-' ) ) {
+            $spxp_post['type']    = 'web';
+            $spxp_post['link']    = get_permalink( $post );
+            $spxp_post['message'] = $this->build_post_message( $post, $post_type );
+            return $spxp_post;
+        }
+
+        // Resolve featured image URLs
+        $thumbnail_id    = get_post_thumbnail_id( $post->ID );
+        $small_image_src = null;
+        $full_image_src  = null;
+        if ( $thumbnail_id > 0 && $preview_image_size ) {
+            $image = wp_get_attachment_image_src( $thumbnail_id, $preview_image_size, false );
+            if ( $image ) { $small_image_src = $image[0]; }
+            if ( $full_image_size && $full_image_size !== 'none' ) {
+                $image = wp_get_attachment_image_src( $thumbnail_id, $full_image_size, false );
+                if ( $image ) { $full_image_src = $image[0]; }
+            }
+        }
+
+        // Detect first video attachment
+        $video_src = null;
+        $videos    = get_attached_media( 'video', $post->ID );
+        if ( ! empty( $videos ) ) {
+            $video_src = wp_get_attachment_url( reset( $videos )->ID );
+        }
+
+        // Pick SPXP type: video > photo > text
+        // video requires both a video file and a preview image (spec §4.4)
+        if ( $video_src && $small_image_src ) {
+            $spxp_post['type']    = 'video';
+            $spxp_post['media']   = $video_src;
+            $spxp_post['preview'] = $small_image_src;
+        } elseif ( $small_image_src ) {
+            $spxp_post['type']  = 'photo';
+            $spxp_post['small'] = $small_image_src;
+            if ( $full_image_src ) { $spxp_post['full'] = $full_image_src; }
+        } else {
+            $spxp_post['type'] = 'text';
+        }
+
+        $spxp_post['message'] = $this->build_post_message( $post, $post_type );
+        return $spxp_post;
+    }
+
+    private function build_post_message( $post, $post_type ) {
+        $title   = trim( wp_strip_all_tags( $post->post_title ) );
+        $excerpt = trim( wp_strip_all_tags( $post->post_excerpt ) );
+
+        if ( str_starts_with( $post_type, 'web-' ) ) {
+            return ( $post_type === 'web-title' ) || strlen( $excerpt ) === 0 ? $title : $excerpt;
+        }
+
+        $content = trim( wp_strip_all_tags( $post->post_content ) );
+        switch ( $post_type ) {
+            case 'txtimg-full':
+                return $title . ' ' . $content;
+            case 'txtimg-excerpt':
+                return $title . ' ' . ( strlen( $excerpt ) > 0 ? $excerpt : $content );
+            case 'txtimg-excerpt-only':
+                return $title . ' ' . $excerpt;
+            default:
+                return $title;
+        }
     }
 
 }
