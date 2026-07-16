@@ -8,20 +8,15 @@ Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Exposes your blog via the Social Profile Exchange Protocol so your friends can follow your updates using any SPXP client, like the HeyFolks app.
+Exposes your WordPress blog via the Social Profile Exchange Protocol (SPXP) — an open, decentralized social networking protocol focused on privacy and individual sovereignty.
 
 == Description ==
 
-The Social Profile Exchange Protocol (SPXP) defines how independent clients and servers can exchange information about social profiles,
-focusing on privacy, security and individual sovereignty.
-It aims to create a social media network consisting of independent actors rather than being controlled by a single entity.
+The Social Profile Exchange Protocol (SPXP) is an open, decentralized social networking protocol focused on privacy and individual sovereignty — a social network of independent actors, not controlled by any single entity.
 
-This plugin makes your wordpress instance available via this protocol so that people can start following your blog posts with
-any SPXP client of their liking, like the [Hey Folks app](https://HeyFolks.app/).
+This plugin exposes your WordPress blog via SPXP so anyone using an SPXP client (like the [HeyFolks app](https://HeyFolks.app/)) can follow your posts. It supports text, photo, video, and web post types, with configurable image sizes and a profile picture.
 
-You can set the profile picture and a longer "About" text in the settings and tweak how posts on our Blog are presented via SPXP.
-
-This plugin is not yet available for multisite installations.
+Once activated, your blog is available at `/spxp`. If your blog lives at `https://example.com`, your SPXP profile URI is `https://example.com/spxp`.
 
 You can follow the development and contribute PRs on [GitHub](https://github.com/heyfolksapp/wordpress-hfa-spxp)
 
