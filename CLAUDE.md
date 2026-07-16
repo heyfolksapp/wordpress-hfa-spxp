@@ -47,11 +47,39 @@ ln -sf $(pwd)/hfa-spxp ~/Sites/wp-spxp-test/wp-content/plugins/hfa-spxp
 
 Note: tags use a `v` prefix (e.g. `v1.3`); the version string inside files (`hfa-spxp.php`, `readme.txt`) has no prefix (e.g. `1.3`).
 
-Current release: **1.2** (tagged `v1.2` on `main`)
+Current release: **1.3** (tagged `v1.3` on `main`)
+
+## Running tests
+
+```bash
+vendor/bin/phpunit
+```
+
+Requires `composer install` first. Composer is not system-installed on this machine; download it with:
+
+```bash
+curl -sS https://getcomposer.org/installer | /usr/local/opt/php@8.2/bin/php -- --install-dir=/tmp --filename=composer
+/tmp/composer install
+```
+
+## WordPress.org plugin directory
+
+Plugin slug: `hfa-spxp-support`
+Listing: `https://wordpress.org/plugins/hfa-spxp-support/`
+SVN repo: `https://plugins.svn.wordpress.org/hfa-spxp-support/` (username: `heyfolksapp`)
+
+SVN is not system-installed; install with `brew install subversion`.
+
+To publish a new version:
+1. Follow the release process above to bump the version and tag
+2. Check out the SVN repo: `svn checkout https://plugins.svn.wordpress.org/hfa-spxp-support/`
+3. Copy plugin files into `trunk/`
+4. `svn copy trunk/ tags/<version>/`
+5. `svn commit --username heyfolksapp --message "..."`
 
 ## Open issues
 
-- **#3** — Publish plugin to the WordPress.org plugin directory
+_(none)_
 
 ## SPXP spec compliance
 
